@@ -1,45 +1,71 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escena Interactiva en A-Frame</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  </head>
-  <body>
-  <a-scene>
-        <a-assets>
-          <img id="fons" src="fotos/SCHEVCHUK.png" />
-          <img id="texturaterra" src="fotos/negreira.jpeg" />
-          <img id="vitorinho" src="fotos/PHOTO-2024-11-27-09-54-14.jpg" />        
-          <img id="mosqueperras" src="fotos/MOSQUEPERRAS.png" />            
-          <img id="ian" src="fotos/ian.png" />
-          <img id="oleksii" src="fotos/IMG_20250201_155806.jpg" />
-          <img id="madrid" src="fotos/madrid.jpeg" />
-          <img id="senyera" src="fotos/senyera.webp" />
-     
-        </a-assets>
-        <a-sky src="#fons"></a-sky>
-        <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" src="#texturaterra"></a-plane>
-        <a-plane position="-30 8 -8" rotation="0 0 0" width="15" height="22"  src="#vitorinho"></a-plane>
-        <a-box position="-4 2 0" rotation="0 0 50"  src="#mosqueperras" depth="4" height="4" width="4"></a-box>
-        <a-box position="-16 3 20" rotation="0 0 50"  src="#ian" depth="4" height="4" width="4"></a-box>
-        <a-box position="-16 13 13" rotation="0 0 50"  src="#oleksii" depth="4" height="4" width="4"></a-box>
-        <a-plane position="-4 23 13" rotation="0 0 0" width="5" height="5" src="#madrid"></a-plane>
-        <a-sphere position="-10 115 6" src="#senyera" radius="5" color="#ff0" animation="
-        property: scale;
-        from: 1 1 1;
-        to: 2 2 2;
-        easing: easeInOutElastic;
-        loop: true"></a-sphere>
-        </a-scene>
+</head>
+<body>
+  <a-scene cursor="rayOrigin: mouse" raycaster="objects: .movible">
+    <a-assets>
+      <img id="fons" src="fotos/SCHEVCHUK.png" />
+      <img id="texturaterra" src="fotos/negreira.jpeg" />
+      <img id="vitorinho" src="fotos/PHOTO-2024-11-27-09-54-14.jpg" />
+      <img id="mosqueperras" src="fotos/MOSQUEPERRAS.png" />
+      <img id="ian" src="fotos/ian.png" />
+      <img id="oleksii" src="fotos/IMG_20250201_155806.jpg" />
+      <img id="madrid" src="fotos/madrid.jpeg" />
+      <img id="senyera" src="fotos/senyera.webp" />
+    </a-assets>
 
-        <script>
-            let unobjecte = document.querySelector("#esmou");
-         
-            unobjecte.addEventListener("click", () => {            
-              unobjecte.setAttribute("animation", {
-                property: "position",
-                to: "8 40 -6",
-                dur: 10000
-              });
-            });
-          </script>
-  </body>
+    <a-sky src="#fons"></a-sky>
+    <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" src="#texturaterra"></a-plane>
+
+    <!-- Agregamos la clase "movible" a las entidades que queremos que sean clickeables -->
+    <a-plane id="vitorinho" class="movible" position="-30 8 -8" rotation="0 0 0" width="15" height="22" src="#vitorinho"></a-plane>
+    <a-box id="mosqueperras" class="movible" position="-4 2 0" rotation="0 0 50" src="#mosqueperras" depth="4" height="4" width="4"></a-box>
+    <a-box id="ian" class="movible" position="-16 3 20" rotation="0 0 50" src="#ian" depth="4" height="4" width="4"></a-box>
+    <a-box id="oleksii" class="movible" position="-16 13 13" rotation="0 0 50" src="#oleksii" depth="4" height="4" width="4"></a-box>
+    <a-plane id="madrid" class="movible" position="-4 3 13" rotation="0 0 0" width="5" height="5" src="#madrid"></a-plane>
+    <a-sphere id="senyera" position="-10 115 6" src="#senyera" radius="5" color="#ff0" animation="property: scale; from: 1 1 1; to: 2 2 2; easing: easeInOutElastic; loop: true"></a-sphere>
+
+  </a-scene>
+
+  <script>
+    // Variable para controlar si el movimiento está activo o no
+    let isMoving = false;
+
+    // Función para generar rotaciones aleatorias
+    const rotateRandomly = (objeto) => {
+      const rotationX = Math.random() * 360;
+      const rotationY = Math.random() * 360;
+      const rotationZ = Math.random() * 360;
+
+      objeto.setAttribute('animation', {
+        property: 'rotation',
+        to: `${rotationX} ${rotationY} ${rotationZ}`,
+        dur: 2000,          // Duración de la animación (2 segundos)
+        easing: 'easeInOutQuad', // Tipo de transición (suave)
+        loop: true         // Hacemos que la animación sea infinita
+      });
+    };
+
+    // Detecta el clic en la escena
+    document.querySelector('a-scene').addEventListener('click', () => {
+      const objetos = document.querySelectorAll('.movible'); // Seleccionamos todos los objetos con la clase 'movible'
+
+      if (isMoving) {
+        // Si los objetos están en movimiento, detener las animaciones
+        objetos.forEach(objeto => objeto.removeAttribute('animation'));
+      } else {
+        // Si no están en movimiento, agregar animación a todos los objetos
+        objetos.forEach(rotateRandomly);
+      }
+
+      // Alternar el estado de movimiento
+      isMoving = !isMoving;
+    });
+  </script>
+</body>
 </html>

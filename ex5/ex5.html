@@ -22,7 +22,7 @@
     <a-sky src="#fons"></a-sky>
     <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" src="#texturaterra"></a-plane>
 
-    <!-- Agregamos la clase "movible" a las entidades que queremos que sean clickeables -->
+    
     <a-plane id="vitorinho" class="movible" position="-30 8 -8" rotation="0 0 0" width="15" height="22" src="#vitorinho"></a-plane>
     <a-box id="mosqueperras" class="movible" position="-4 2 0" rotation="0 0 50" src="#mosqueperras" depth="4" height="4" width="4"></a-box>
     <a-box id="ian" class="movible" position="-16 3 20" rotation="0 0 50" src="#ian" depth="4" height="4" width="4"></a-box>
@@ -33,10 +33,10 @@
   </a-scene>
 
   <script>
-    // Variable para controlar si el movimiento está activo o no
+    
     let isMoving = false;
 
-    // Función para generar rotaciones aleatorias
+    
     const rotateRandomly = (objeto) => {
       const rotationX = Math.random() * 360;
       const rotationY = Math.random() * 360;
@@ -45,43 +45,43 @@
       objeto.setAttribute('animation', {
         property: 'rotation',
         to: `${rotationX} ${rotationY} ${rotationZ}`,
-        dur: 2000,          // Duración de la animación (2 segundos)
-        easing: 'easeInOutQuad', // Tipo de transición (suave)
-        loop: true         // Hacemos que la animación sea infinita
+        dur: 2000,          
+        easing: 'easeInOutQuad', 
+        loop: true         
       });
     };
 
-    // Detecta el clic en la escena
+    
     document.querySelector('a-scene').addEventListener('click', () => {
-      const objetos = document.querySelectorAll('.movible'); // Seleccionamos todos los objetos con la clase 'movible'
+      const objetos = document.querySelectorAll('.movible'); 
 
       if (isMoving) {
-        // Si los objetos están en movimiento, detener las animaciones
+        
         objetos.forEach(objeto => objeto.removeAttribute('animation'));
       } else {
-        // Si no están en movimiento, agregar animación a todos los objetos
+        
         objetos.forEach(rotateRandomly);
       }
 
-      // Alternar el estado de movimiento
+      
       isMoving = !isMoving;
     });
 
-    // Función para hacer que el objeto crezca cuando el mouse pase por encima
+    
     const growOnHover = (element) => {
       element.addEventListener('mouseenter', () => {
-        element.setAttribute('scale', '1.5 1.5 1.5');  // Aumenta el tamaño
+        element.setAttribute('scale', '1.5 1.5 1.5'); 
       });
 
       element.addEventListener('mouseleave', () => {
-        element.setAttribute('scale', '1 1 1');  // Vuelve al tamaño original
+        element.setAttribute('scale', '1 1 1');  
       });
     };
 
-    // Seleccionamos todos los objetos con la clase 'movible'
+    
     const objetosMovibles = document.querySelectorAll('.movible');
 
-    // Aplicamos la función de agrandado a cada objeto movible
+    
     objetosMovibles.forEach(growOnHover);
   </script>
 </body>

@@ -66,6 +66,23 @@
       // Alternar el estado de movimiento
       isMoving = !isMoving;
     });
+
+    // Función para hacer que el objeto crezca cuando el mouse pase por encima
+    const growOnHover = (element) => {
+      element.addEventListener('mouseenter', () => {
+        element.setAttribute('scale', '1.5 1.5 1.5');  // Aumenta el tamaño
+      });
+
+      element.addEventListener('mouseleave', () => {
+        element.setAttribute('scale', '1 1 1');  // Vuelve al tamaño original
+      });
+    };
+
+    // Seleccionamos todos los objetos con la clase 'movible'
+    const objetosMovibles = document.querySelectorAll('.movible');
+
+    // Aplicamos la función de agrandado a cada objeto movible
+    objetosMovibles.forEach(growOnHover);
   </script>
 </body>
 </html>
